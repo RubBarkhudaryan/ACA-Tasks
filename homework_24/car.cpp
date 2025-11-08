@@ -57,7 +57,6 @@ std::ostream&	operator<<(std::ostream& os, const Car& car)
 	return os;
 }
 
-
 void	Car::repaint(std::string new_colour)
 {
 	this->colour = new_colour;
