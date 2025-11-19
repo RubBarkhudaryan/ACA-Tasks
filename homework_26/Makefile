@@ -1,26 +1,30 @@
 NAME		=	exe
 
 CXX			=	g++
-CXXFLAGS	=	-std=c++11
+CXXFLAGS	=	-std=c++11 -Wall -Wextra -Werror -g3
+
+VALGRIND	=	valgrind --leak-check=full --show-leak-kinds=all
 
 SRCS		=	main.cpp animal.cpp
-OBJS		=	$(SRCS:%.cpp=%.o)
+OBJS		=	$(SRCS:.cpp=.o)
 
 all: $(NAME)
 
-$(NAME) : $(OBJS)
+$(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
-%o : %cpp
-	$(CXX) $(CXXFLAGS) -c $> -o $@
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm $(OBJS)
+	rm -f $(OBJS)
 
 fclean: clean
-	rm $(NAME)
+	rm -f $(NAME)
 
-re:
-	fclean all
+re: fclean all
 
-.PHONY: all clean fclean re
+val: fclean all
+	$(VALGRIND) ./$(NAME)
+
+.PHONY: all clean fclean re val

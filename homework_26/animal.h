@@ -32,7 +32,7 @@ class Lion : public Animal
 		Lion(const std::string &name, const std::string &breed,
 				const std::string &color, int age,
 				double weight, double height);
-		~Lion();
+		~Lion() override;
 		void	sound() const override;
 };
 
@@ -43,7 +43,7 @@ class Tiger : public Animal
 		Tiger(const std::string &name, const std::string &breed,
 				const std::string &color, int age,
 				double weight, double height);
-		~Tiger();
+		~Tiger() override;
 		void	sound() const override;
 };
 
@@ -54,7 +54,7 @@ class Cheetah : public Animal
 		Cheetah(const std::string &name, const std::string &breed,
 				const std::string &color, int age,
 				double weight, double height);
-		~Cheetah();
+		~Cheetah() override;
 		void	sound() const override;
 };
 
@@ -65,7 +65,7 @@ class Dog : public Animal
 		Dog(const std::string &name, const std::string &breed,
 				const std::string &color, int age,
 				double weight, double height);
-		~Dog();
+		~Dog() override;
 		void	sound() const override;
 };
 
@@ -76,7 +76,7 @@ class Cat : public Animal
 		Cat(const std::string &name, const std::string &breed,
 				const std::string &color, int age,
 				double weight, double height);
-		~Cat();
+		~Cat() override;
 		void	sound() const override;
 };
 
@@ -87,7 +87,7 @@ class SeaLion : public Animal
 		SeaLion(const std::string &name, const std::string &breed,
 				const std::string &color, int age,
 				double weight, double height);
-		~SeaLion();
+		~SeaLion() override;
 		void	sound() const override;
 };
 

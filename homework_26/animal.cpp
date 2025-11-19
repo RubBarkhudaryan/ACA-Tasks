@@ -4,7 +4,7 @@
 
 Animal::Animal()
 {
-	std::cout << "Animal created" << std::endl;
+	std::cout << "\nAnimal created" << std::endl;
 }
 
 Animal::Animal(
@@ -13,12 +13,12 @@ Animal::Animal(
 	double weight, double height
 	) : _name(name), _breed(breed), _color(color), _age(age), _weight(weight), _height(height)
 {
-	std::cout << "Animal created" << std::endl;
+	std::cout << "\nAnimal created" << std::endl;
 }
 
 Animal::~Animal()
 {
-	std::cout << "Animal destroyed" << std::endl;
+	std::cout << "Animal destroyed\n" << std::endl;
 }
 
 void	Animal::sound() const
