@@ -21,7 +21,8 @@ void	print_options()
 
 void	routine(Driver& driver)
 {
-	Car			*car;
+	Car			*car = nullptr;
+	Parking		*lot = nullptr;
 	int			choice;
 	int			distance;
 	int			amount;
@@ -41,7 +42,10 @@ void	routine(Driver& driver)
 		std::cin >> choice;
 
 		if (choice == 1)
-			car->setParking(new Parking("Main Street Parking", 100));
+		{
+			lot = new Parking("456 Elm St", 100);
+			car->setParking(lot);
+		}
 		else if (choice == 2)
 			car->printInfo();
 		else if (choice == 3)
@@ -117,4 +121,6 @@ void	routine(Driver& driver)
 		std::cin.ignore();
 		std::cin.get();
 	}
+	delete car;
+	delete lot;
 }
