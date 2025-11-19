@@ -2,37 +2,33 @@
 #include <string>
 #include "./engine.h"
 #include "./car.h"
-#include "./parking.h"
 
 Car::Car()
 {
 	std::cout << "Car default ctor called.\n";
-	this->brand = "Renault";
-	this->model = "Logan";
-	this->colour = "White";
-	this->engine = Engine();
-	this->lot = nullptr;
-	this->type = "Sedan";
-	this->vin = "1HGBH41JXMN109186";
-	this->price = 5000.0;
-	this->year = 2020;
+	this->brand = "Unknown";
+	this->model = "Unknown";
+	this->colour = "Unknown";
+	this->engine;
+	this->type = "Unknown";
+	this->vin = "Unknown";
+	this->price = 0.0;
+	this->year = 0;
 	this->kilometrage = 0;
-	this->seats_count = 5;
-	this->fuel_capacity = 50;
+	this->seats_count = 0;
+	this->fuel_capacity = 0;
 	this->current_fuel = 0;
 	this->engine_on = false;
-	this->is_parked = false;
 }
 
-Car::Car(std::string brand, std::string model, std::string colour, Parking *lot, Engine engine,
+Car::Car(std::string brand, std::string model, std::string colour, Engine engine,
 	std::string type, std::string vin, double price, int year,
-	int kilometrage, int seats_count, int fuel_capacity, bool is_parked)
+	int kilometrage, int seats_count, int fuel_capacity)
 {
 	std::cout << "Car parameterized ctor called.\n";
 	this->brand = brand;
 	this->model = model;
 	this->colour = colour;
-	this->lot = lot;
 	this->engine = engine;
 	this->type = type;
 	this->vin = vin;
@@ -43,7 +39,6 @@ Car::Car(std::string brand, std::string model, std::string colour, Parking *lot,
 	this->fuel_capacity = fuel_capacity;
 	this->current_fuel = 0;
 	this->engine_on = false;
-	this->is_parked = is_parked;
 }
 
 Car::Car(const Car& car)
@@ -52,7 +47,6 @@ Car::Car(const Car& car)
 	this->brand = car.brand;
 	this->model = car.model;
 	this->colour = car.colour;
-	this->lot = nullptr;
 	this->engine = car.engine;
 	this->type = car.type;
 	this->vin = car.vin;
@@ -63,7 +57,6 @@ Car::Car(const Car& car)
 	this->fuel_capacity = car.fuel_capacity;
 	this->current_fuel = car.current_fuel;
 	this->engine_on = car.engine_on;
-	this->is_parked = car.is_parked;
 }
 
 Car&	Car::operator=(const Car& car)
@@ -74,7 +67,6 @@ Car&	Car::operator=(const Car& car)
 		this->brand = car.brand;
 		this->model = car.model;
 		this->colour = car.colour;
-		this->lot = nullptr;
 		this->engine = car.engine;
 		this->type = car.type;
 		this->vin = car.vin;
@@ -85,7 +77,6 @@ Car&	Car::operator=(const Car& car)
 		this->fuel_capacity = car.fuel_capacity;
 		this->current_fuel = car.current_fuel;
 		this->engine_on = car.engine_on;
-		this->is_parked = car.is_parked;
 	}
 	return *this;
 }
@@ -144,12 +135,6 @@ void	Car::drive(int distance)
 		std::cout << std::endl;
 		return;
 	}
-	if (this->is_parked)
-	{
-		std::cout << "Can't drive. Retrieve the car from parking first.\n";
-		std::cout << std::endl;
-		return;
-	}
 	while (distance)
 	{
 		if (this->current_fuel <= 0)
@@ -204,28 +189,4 @@ void	Car::refuel(int amount)
 		std::cout << "Refueled " << amount << " liters.\n";
 		std::cout << std::endl;
 	}
-}
-
-void	Car::park(bool status)
-{
-	this->is_parked = status;
-}
-void	Car::retrieve(bool status)
-{
-	this->is_parked = !status;
-}
-
-void	Car::setParking(Parking* lot)
-{
-	this->lot = lot;
-}
-
-Parking*	Car::getLot()
-{
-	return this->lot;
-}
-
-bool	Car::isParked()
-{
-	return this->is_parked;
 }

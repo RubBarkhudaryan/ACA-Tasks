@@ -10,10 +10,10 @@ Driver::Driver()
 	this->surname = "Doe";
 	this->gender = true;
 	this->age = 20;
-	this->car = nullptr;
+	this->car;
 }
 
-Driver::Driver(std::string name, std::string surname, bool gender, int age, Car *car)
+Driver::Driver(std::string name, std::string surname, bool gender, int age, Car car)
 {
 	std::cout << "Driver parameterized ctor called.\n";
 	this->name = name;
@@ -34,21 +34,10 @@ void	Driver::printInfo()
 	std::cout << "Surname: " << this->surname << std::endl;
 	std::cout << "Gender: " << (this->gender ? "male" : "female") << std::endl;
 	std::cout << "Age: " << this->age << std::endl;
+
 }
 
-void	Driver::setCar(Car *car)
-{
-	if (this->car != nullptr)
-	{
-		std::cout << "Driver already has a car assigned. Reassigning...\n";
-		delete this->car;
-		this->car = car;
-	}
-	else
-		this->car = car;
-}
-
-Car	*Driver::getCar()
+Car	Driver::getCar()
 {
 	return this->car;
 }

@@ -21,9 +21,8 @@ class Parking
 		Parking&	operator=(const Parking& other);
 
 		/*Parking methods*/
-		void		display();
-		bool		park(std::size_t spot);
-		bool		retrieve(std::size_t spot);
+		bool		park();
+		bool		retrieve();
 };
 
 #endif
