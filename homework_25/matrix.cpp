@@ -55,7 +55,16 @@ Matrix::Matrix(int rows, int cols, int **matrix)
 	std::cout << "Parameterized ctor called.\n";
 	this->rows = rows;
 	this->cols = cols;
-	this->matrix = matrix;
+	this->matrix = new int *[rows];
+
+	for (std::size_t i = 0; i < this->rows; ++i)
+		this->matrix[i] = new int[cols];
+
+	for (std::size_t i = 0; i < this->rows; ++i)
+	{
+		for (std::size_t j = 0; j < this->cols; ++j)
+			this->matrix[i][j] = matrix[i][j];
+	}
 }
 
 Matrix::Matrix(const Matrix& matrix)
@@ -126,7 +135,7 @@ Matrix&	Matrix::operator=(const Matrix& matrix)
 				this->matrix[i][j] = matrix.matrix[i][j];
 		}
 	}
-	return *this;
+	return (*this);
 }
 
 Matrix&	Matrix::operator*(int num)
@@ -136,7 +145,7 @@ Matrix&	Matrix::operator*(int num)
 		for (std::size_t j = 0; j < this->cols; ++j)
 			this->matrix[i][j] *= num;
 	}
-	return *this;
+	return (*this);
 }
 
 Matrix&	Matrix::operator*(const Matrix& other)
@@ -144,7 +153,7 @@ Matrix&	Matrix::operator*(const Matrix& other)
 	if (this->cols != other.rows)
 	{
 		std::cout << "Can't multiplicate matrices. The count of cols in first matrix isn't equal to rows in second matrix.\n";
-		return *this;
+		return (*this);
 	}
 
 	Matrix	temp = *this;
@@ -168,7 +177,7 @@ Matrix&	Matrix::operator*(const Matrix& other)
 				this->matrix[i][j] += temp.matrix[i][k] * other.matrix[k][j];
 		}
 	}
-	return *this;
+	return (*this);
 }
 
 Matrix&	Matrix::operator++()
@@ -178,7 +187,7 @@ Matrix&	Matrix::operator++()
 		for (std::size_t j = 0; j < this->cols; ++j)
 			++(this->matrix[i][j]);
 	}
-	return *this;
+	return (*this);
 }
 
 Matrix	Matrix::operator++(int)
@@ -190,7 +199,7 @@ Matrix	Matrix::operator++(int)
 		for (std::size_t j = 0; j < this->cols; ++j)
 			++(this->matrix[i][j]);
 	}
-	return temp;
+	return (temp);
 }
 
 Matrix::~Matrix()
@@ -270,7 +279,7 @@ std::ostream&	operator<<(std::ostream& os, const Matrix& matrix)
 			os << matrix.matrix[i][j] << " ";
 		os << std::endl;
 	}
-	return os;
+	return (os);
 }
 
 /*Matrix utils*/

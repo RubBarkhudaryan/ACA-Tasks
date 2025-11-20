@@ -51,7 +51,16 @@ Matrix::Matrix(int rows, int cols, Car **matrix)
 	std::cout << "Parameterized ctor called.\n";
 	this->rows = rows;
 	this->cols = cols;
-	this->matrix = matrix;
+	this->matrix = new Car *[rows];
+
+	for (std::size_t i = 0; i < this->rows; ++i)
+		this->matrix[i] = new Car[cols];
+
+	for (std::size_t i = 0; i < this->rows; ++i)
+	{
+		for (std::size_t j = 0; j < this->cols; ++j)
+			this->matrix[i][j] = matrix[i][j];
+	}
 }
 
 Matrix::Matrix(const Matrix &matrix)

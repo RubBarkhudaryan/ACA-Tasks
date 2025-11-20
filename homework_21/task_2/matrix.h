@@ -10,13 +10,13 @@ class Matrix
 		int	cols;
 
 	public:
+
 		/*Matrix ctor/dtor*/
 		Matrix();
 		Matrix(int rows);
 		Matrix(int rows, int cols);
 		Matrix(int rows, int cols, int **matrix);
 		Matrix(const Matrix& matrix);
-
 		~Matrix();
 
 		/*Matrix operators*/

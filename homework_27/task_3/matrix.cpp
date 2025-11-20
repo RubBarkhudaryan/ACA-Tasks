@@ -57,7 +57,7 @@ Matrix::Matrix(int rows, int cols, int **matrix)
 
 	for (int i = 0; i < this->rows; ++i)
 		this->matrix[i] = new int[cols];
-	
+
 	for (int i = 0; i < this->rows; ++i)
 	{
 		for (int j = 0; j < this->cols; ++j)
@@ -68,6 +68,8 @@ Matrix::Matrix(int rows, int cols, int **matrix)
 Matrix::Matrix(const Matrix& matrix)
 {
 	std::cout << "Matrix copy ctor called.\n";
+	this->cols = matrix.cols;
+	this->rows = matrix.rows;
 
 	if (this->matrix)
 	{
@@ -76,10 +78,8 @@ Matrix::Matrix(const Matrix& matrix)
 		delete[] this->matrix;
 	}
 
-	this->cols = matrix.cols;
-	this->rows = matrix.rows;
-
 	this->matrix = new int* [this->rows];
+
 	for (int i = 0; i < this->rows; ++i)
 		this->matrix[i] = new int[this->cols];
 
@@ -95,16 +95,21 @@ Matrix&	Matrix::operator=(const Matrix& matrix)
 	std::cout << "Assignment opertor called.\n";
 	if (this != &matrix)
 	{
-		for (int i = 0; i < this->rows; ++i)
-			delete[] this->matrix[i];
-		delete[] this->matrix;
-
 		this->cols = matrix.cols;
 		this->rows = matrix.rows;
+		
+		if (this->matrix)
+		{
+			for (int i = 0; i < rows; ++i)
+				delete[] this->matrix[i];
+			delete[] this->matrix;
+		}
 
 		this->matrix = new int* [this->rows];
+
 		for (int i = 0; i < this->rows; ++i)
 			this->matrix[i] = new int[this->cols];
+
 		for (int i = 0; i < this->rows; ++i)
 		{
 			for (int j = 0; j < this->cols; ++j)
@@ -116,13 +121,13 @@ Matrix&	Matrix::operator=(const Matrix& matrix)
 
 Matrix::~Matrix()
 {
-	std::cout << "Dtor called.\n";
+	std::cout << "Matrix dtor called.\n";
 	for (int i = 0; i < this->rows; ++i)
 		delete[] this->matrix[i];
 	delete[] this->matrix;
 }
 
-void	Matrix::print()
+void	Matrix::display() const
 {
 	for (int i = 0; i < this->rows; ++i)
 	{
@@ -182,4 +187,3 @@ void	Matrix::sum(const Matrix& other)
 		}
 	}
 }
-

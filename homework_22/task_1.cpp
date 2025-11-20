@@ -60,7 +60,16 @@ class Matrix
 			std::cout << "Parameterized ctor called.\n";
 			this->rows = rows;
 			this->cols = cols;
-			this->matrix = matrix;
+			this->matrix = new int* [rows];
+
+			for (int i = 0; i < this->rows; ++i)
+				this->matrix[i] = new int[cols];
+			
+			for (int i = 0; i < this->rows; ++i)
+			{
+				for (int j = 0; j < this->cols; ++j)
+					this->matrix[i][j] = matrix[i][j];
+			}
 		}
 
 		Matrix(const Matrix& matrix)

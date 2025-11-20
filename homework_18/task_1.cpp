@@ -26,12 +26,12 @@ class Matrix
 			this->cols = rows;
 			this->matrix = new int* [rows];
 
-			for (std::size_t i = 0; i < this->rows; ++i)
+			for (int i = 0; i < this->rows; ++i)
 				this->matrix[i] = new int[rows];
 
-			for (std::size_t i = 0; i < this->rows; ++i)
+			for (int i = 0; i < this->rows; ++i)
 			{
-				for (std::size_t j = 0; j < this->cols; ++j)
+				for (int j = 0; j < this->cols; ++j)
 					this->matrix[i][j] = std::rand() % 100;
 			}
 		}
@@ -45,12 +45,12 @@ class Matrix
 			this->cols = cols;
 			this->matrix = new int* [rows];
 
-			for (std::size_t i = 0; i < this->rows; ++i)
+			for (int i = 0; i < this->rows; ++i)
 				this->matrix[i] = new int[cols];
 
-			for (std::size_t i = 0; i < this->rows; ++i)
+			for (int i = 0; i < this->rows; ++i)
 			{
-				for (std::size_t j = 0; j < this->cols; ++j)
+				for (int j = 0; j < this->cols; ++j)
 					this->matrix[i][j] = std::rand() % 100;
 			}
 		}
@@ -60,7 +60,16 @@ class Matrix
 			std::cout << "Parameterized ctor called.\n";
 			this->rows = rows;
 			this->cols = cols;
-			this->matrix = matrix;
+			this->matrix = new int* [rows];
+
+			for (int i = 0; i < this->rows; ++i)
+				this->matrix[i] = new int[cols];
+			
+			for (int i = 0; i < this->rows; ++i)
+			{
+				for (int j = 0; j < this->cols; ++j)
+					this->matrix[i][j] = matrix[i][j];
+			}
 		}
 
 		~Matrix()
@@ -73,9 +82,9 @@ class Matrix
 
 		void	print()
 		{
-			for (std::size_t i = 0; i < this->rows; ++i)
+			for (int i = 0; i < this->rows; ++i)
 			{
-				for (std::size_t j = 0; j < this->cols; ++j)
+				for (int j = 0; j < this->cols; ++j)
 					std::cout << this->matrix[i][j] << " ";
 				std::cout << std::endl;
 			}
@@ -86,16 +95,16 @@ class Matrix
 		{
 			int	**new_matrix = new int* [this->cols];
 
-			for (std::size_t i = 0; i < this->cols; ++i)
+			for (int i = 0; i < this->cols; ++i)
 				new_matrix[i] = new int[rows]{0};
 
-			for (std::size_t i = 0; i < this->cols; ++i)
+			for (int i = 0; i < this->cols; ++i)
 			{
-				for (std::size_t j = 0; j < this->rows; ++j)
+				for (int j = 0; j < this->rows; ++j)
 					new_matrix[i][j] = this->matrix[j][i];
 			}
 
-			for (std::size_t i = 0; i < this->rows; ++i)
+			for (int i = 0; i < this->rows; ++i)
 				delete[] this->matrix[i];
 			delete[] this->matrix;
 
