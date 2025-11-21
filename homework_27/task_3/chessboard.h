@@ -7,9 +7,11 @@
 class Chessboard : public Matrix
 {
 	public:
+		/*Chessboard ctor/dtor*/
 		Chessboard();
 		~Chessboard() override;
 
+		/*Chessboard methods*/
 		void	display() const override;
 };
 
