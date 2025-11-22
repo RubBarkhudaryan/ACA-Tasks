@@ -191,8 +191,10 @@ void	CarRemoteController::increaseVolume(int volume)
 {
 	(void)volume;
 }
+
 void	CarRemoteController::decreaseVolume(int volume)
 {
 	(void)volume;
 }
+
 void	CarRemoteController::mute() {}
