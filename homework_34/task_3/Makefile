@@ -5,7 +5,7 @@ CXXFLAGS	=	-std=c++11 -Wall -Wextra -Werror -g3
 
 VALGRIND	=	valgrind --leak-check=full --show-leak-kinds=all
 
-SRCS		=	main.cpp vector.cpp
+SRCS		=	main.cpp
 OBJS		=	$(SRCS:.cpp=.o)
 
 all: $(NAME)

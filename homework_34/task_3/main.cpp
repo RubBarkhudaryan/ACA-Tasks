@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include "vector.cpp"
+#include "vector.h"
 
 static void print_state(const rub::vector<int>& v, const std::string& name)
 {

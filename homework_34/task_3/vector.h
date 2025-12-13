@@ -65,4 +65,6 @@ namespace rub
 	};
 };
 
+#include "vector.tpp"
+
 #endif //VECTOR_H
