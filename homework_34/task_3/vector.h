@@ -63,7 +63,7 @@ namespace rub
 			void			pop_back(void) noexcept;
 			void			clear(void) noexcept;
 	};
-};
+}
 
 #include "vector.tpp"
 
