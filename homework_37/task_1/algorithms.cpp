@@ -31,86 +31,85 @@ void	bubble_sort(T *arr, std::size_t size)
 }
 
 template <typename T>
-void	merge(T *arr, std::size_t left, std::size_t mid, std::size_t right)
+void	merge(T *arr, std::size_t length, T *left, T *right)
 {
-	T			*tmp1;
-	T			*tmp2;
+	std::size_t	i;
+	std::size_t	j;
 	std::size_t	ind;
-	std::size_t	l_ind;
-	std::size_t	r_ind;
+	std::size_t	mid;
 
-	tmp1 = new T[mid - left + 1];
-	tmp2 = new T[right - mid];
+	mid = length / 2;
+	ind = 0;
+	j = 0;
+	i = 0;
 
-	for (std::size_t i = 0; i < mid; i++)
-		tmp1[i] = arr[i];
-
-	for (std::size_t i = 0; i < right - mid; ++i)
-		tmp2[i] = arr[mid + i + 1];
-
-	ind = left;
-	l_ind = 0;
-	r_ind = 0;
-
-	while (l_ind < (mid - left + 1) && r_ind < (right - ind))
+	while (i < mid && j < length - mid)
 	{
-		if (tmp1[l_ind] < tmp2[r_ind])
-		{
-			arr[ind] = tmp1[l_ind];
-			++l_ind;
-			++ind;
-		}
+		if (left[i] < right[j])
+			arr[ind++] = left[i++];
 		else
-		{
-			arr[ind] = tmp2[r_ind];
-			++r_ind;
-			++ind;
-		}
+			arr[ind++] = right[j++];
 	}
 
-	while (l_ind < (mid - left + 1))
-	{
-		arr[ind] = tmp1[l_ind];
-		++l_ind;
-		++ind;
-	}
+	while (i < mid)
+		arr[ind++] = left[i++];
 
-	while (r_ind < (right - mid))
-	{
-		arr[ind] = tmp2[r_ind];
-		++r_ind;
-		++ind;
-	}
-	
-	delete[] tmp1;
-	delete[] tmp2;
+	while (j < length - mid)
+		arr[ind++] = right[j++];
 }
 
 template <typename T>
-void	merge_sort(T *arr, std::size_t left, std::size_t right)
+void	merge_sort(T *arr, std::size_t length)
 {
+	T			*left;
+	T			*right;
+	std::size_t	r_ind;
 	std::size_t	mid;
 
-	if (left >= right)
+	if (length <= 1)
 		return ;
-	mid = left + (right - left) / 2;
-	merge_sort(arr, left, mid);
-	merge_sort(arr, mid + 1, right);
-	merge(arr, left, mid, right);
+
+	mid	= length / 2;
+	left = new T[mid];
+	right = new T[length - mid];
+
+	for (std::size_t i = 0; i < mid; ++i)
+		left[i] = arr[i];
+	r_ind = 0;
+	for (std::size_t j = mid; j < length; ++j)
+		right[r_ind++] = arr[j];
+
+	merge_sort(left, mid);
+	merge_sort(right, length - mid);
+	merge(arr, length, left, right);
+
+	delete[] left;
+	delete[] right;
 }
 
+template <typename T>
+int	partition()
+{
+
+}
+
+template <typename T>
+void	quick_sort()
+{
+
+}
 
 int	main()
 {
 	/*int arr*/
 	/*
+		int	arr[] = {5, 2, 9, 1, 5, 6, 9};
+		std::size_t	size = sizeof(arr) / sizeof(arr[0]);
+		merge_sort(arr, size);
+		for (std::size_t i = 0; i < size; ++i)
+			std::cout << arr[i] << " ";
+		std::cout << std::endl;
 	*/
-	int	arr[] = {5, 2, 9, 1, 5, 6};
-	std::size_t	size = sizeof(arr) / sizeof(arr[0]);
-	merge_sort(arr, 0, size - 1);
-	for (std::size_t i = 0; i < size; ++i)
-		std::cout << arr[i] << " ";
-	std::cout << std::endl;
 
 	/*double arr*/
 	/*
