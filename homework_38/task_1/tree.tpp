@@ -26,9 +26,9 @@ void	rub::Tree<T>::add_child(const T& val)
 template <typename T>
 void	rub::Tree<T>::remove_children(void)
 {
-	for (Tree<T> *child : nodes)
-		delete child;
-	nodes.clear();
+	for (std::size_t i = 0; i < this->nodes.size(); ++i)
+		delete this->nodes[i];
+	this->nodes.clear();
 }
 
 template <typename T>
@@ -67,4 +67,4 @@ const rub::Tree<T>	*rub::Tree<T>::get_child(std::size_t index) const
 	return (this->nodes[index]);
 }
 
-#endif // TREE_TPP
+#endif //TREE_TPP

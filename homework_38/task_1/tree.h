@@ -2,7 +2,7 @@
 
 # define TREE_H
 
-#include <vector>
+#include "./vector.h"
 namespace rub
 {
 	template <typename T>
@@ -10,7 +10,7 @@ namespace rub
 	{
 		private:
 			T						value;
-			std::vector<Tree<T> *>	nodes;
+			rub::vector<Tree<T> *>	nodes;
 			void	remove_children(void);
 		public:
 			/*---------tree ctor/dtor---------*/
@@ -30,4 +30,4 @@ namespace rub
 }
 #include "tree.tpp"
 
-#endif // TREE_H
+#endif //TREE_H
