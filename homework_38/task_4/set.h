@@ -48,10 +48,12 @@ namespace rub
 			rub::set<T>&	operator=(const rub::set<T>& other) = delete;
 
 			/*---------set methods---------*/
-			void	inorder(rub::set_node<T> *node) const;
-			void	preorder(rub::set_node<T> *node) const;
-			void	postorder(rub::set_node<T> *node) const;
+			void	inorder(void) const;
+			void	preorder(void) const;
+			void	postorder(void) const;
 	};
 };
+
+# include "./set.tpp"
 
 #endif //SET_H

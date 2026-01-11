@@ -38,15 +38,13 @@ rub::set<T>::set(void) : root(nullptr)
 {}
 
 template <typename T>
-rub::set<T>::set(std::initializer_list<T> list) : root(new rub::set_node<T>())
+rub::set<T>::set(std::initializer_list<T> list)
 {
-	rub::set_node<T>					*temp;
-	std::initializer_list<T>::iterator	it;
-
-	if (list.size() == 0)
+	auto	it = list.begin();
+	if (it == list.end())
 		return ;
-	it = list.begin();
-	root->value = *(it);
+
+	root = new rub::set_node<T>(*it);
 	++it;
 
 	for (; it != list.end(); ++it)
@@ -65,7 +63,7 @@ void	rub::set<T>::delete_tree(rub::set_node<T> *node)
 	if (!node)
 		return ;
 	delete_tree(node->left);
-	delete_tree(node->left);
+	delete_tree(node->right);
 	delete node;
 }
 
@@ -76,40 +74,40 @@ void	rub::set<T>::print(rub::set_node<T> *node, int mode) const
 		return ;
 	if (mode == INORDER)
 	{
-		print(node->left);
+		print(node->left, mode);
 		std::cout << node->value << std::endl;
-		print(node->right);
+		print(node->right, mode);
 	}
 	else if (mode == PREORDER)
 	{
 		std::cout << node->value << std::endl;
-		print(node->left);
-		print(node->right);
+		print(node->left, mode);
+		print(node->right, mode);
 	}
 	else if (mode == POSTORDER)
 	{
-		print(node->left);
-		print(node->right);
+		print(node->left, mode);
+		print(node->right, mode);
 		std::cout << node->value << std::endl;
 	}
 }
 
 template <typename T>
-void	rub::set<T>::inorder(rub::set_node<T> *node) const
+void	rub::set<T>::inorder(void) const
 {
 	print(root, INORDER);
 }
 
 template <typename T>
-void	rub::set<T>::preorder(rub::set_node<T> *node) const
+void	rub::set<T>::preorder(void) const
 {
 	print(root, PREORDER);
 }
 
 template <typename T>
-void	rub::set<T>::postorder(rub::set_node<T> *node) const
+void	rub::set<T>::postorder(void) const
 {
-	print(root, PREORDER);
+	print(root, POSTORDER);
 }
 
 #endif //SET_TPP
