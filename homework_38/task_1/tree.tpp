@@ -19,8 +19,7 @@ rub::Tree<T>::~Tree(void)
 template <typename T>
 void	rub::Tree<T>::add_child(const T& val)
 {
-	Tree	*new_node = new Tree(val);
-	this->nodes.push_back(new_node);
+	this->nodes.push_back(new Tree(val));
 }
 
 template <typename T>

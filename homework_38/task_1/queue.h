@@ -16,6 +16,8 @@ namespace rub
 			Queue(const T& val);
 			~Queue(void) noexcept = default;
 			Queue(const Queue &) = delete;
+
+			/*---------queue operators---------*/
 			Queue& operator=(const Queue &) = delete;
 
 			/*---------queue methods---------*/
