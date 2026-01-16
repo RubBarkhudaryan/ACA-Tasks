@@ -14,9 +14,3 @@ int main()
 
 	return (0);
 }
-
-
-/*
-Hayk Poghosyan
-66: Մեր կողմից գրված շախմատի տախտակ և animal class-ներում ավելացնել move constructor և move operator =; 
-*/
