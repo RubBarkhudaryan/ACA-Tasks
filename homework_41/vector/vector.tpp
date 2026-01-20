@@ -1,6 +1,3 @@
-#include <initializer_list>
-#include <stdexcept>
-#include <iostream>
 #include "vector.h"
 
 template <typename T>
@@ -247,7 +244,7 @@ void	rub::vector<T>::push_back(const T& value)
 }
 
 template <typename T>
-void	rub::vector<T>::push_back(T&& value) noexcept
+void	rub::vector<T>::push_back(T&& value)
 {
 	if (this->_size == this->_capacity)
 	{

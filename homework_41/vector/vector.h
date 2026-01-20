@@ -2,6 +2,10 @@
 
 #define VECTOR_H
 
+#include <initializer_list>
+#include <stdexcept>
+#include <iostream>
+
 namespace rub
 {
 	template <typename T>
@@ -59,12 +63,12 @@ namespace rub
 
 			/*modifiers*/
 			void			push_back(const T& value);
-			void			push_back(T&& value) noexcept;
+			void			push_back(T&& value);
 			void			pop_back(void) noexcept;
 			void			clear(void) noexcept;
 	};
-}
+};
 
-#include "vector.tpp"
+#include "./vector.tpp"
 
 #endif //VECTOR_H
