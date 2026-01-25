@@ -3,6 +3,7 @@
 # define LIST_H
 
 # include <cstddef>
+# include "forward_iterator.h"
 
 namespace rub
 {
