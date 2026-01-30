@@ -1,4 +1,5 @@
 #include <iostream>
+#include <functional>
 
 struct	F
 {
@@ -7,7 +8,7 @@ struct	F
 	public:
 		F();
 		~F() = default;
-		F&	operator()(int num);
+		F&						operator()(int num);
 		friend std::ostream&	operator <<(std::ostream& os, const F& obj);
 };
 
@@ -26,8 +27,19 @@ std::ostream&	operator <<(std::ostream& os, const F& obj)
 	return (os);
 }
 
+std::function<std::function<F (int)>()> closure = []() -> std::function<F (int)>
+{
+	F	f;
+	return [f](int num) mutable
+	{
+		f(num);
+		return (f);
+	};
+};
+
 int main()
 {
 	F	f;
-	std::cout << f(5)(6) << std::endl;
+	std::function<F (int)> func = closure();
+	std::cout << func(5)(6) << std::endl;
 }
