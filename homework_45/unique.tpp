@@ -78,7 +78,6 @@ rub::unique_ptr<T, Deleter>&	rub::unique_ptr<T, Deleter>::operator=(rub::unique_
 			this->del(this->ptr);
 		this->ptr = other.release();
 		this->del = other.get_deleter();
-		other.ptr = nullptr;
 	}
 	return (*this);
 }
@@ -87,14 +86,10 @@ template<typename T, typename Deleter>
 template <typename P, typename D, typename>
 rub::unique_ptr<T, Deleter>&	rub::unique_ptr<T, Deleter>::operator=(rub::unique_ptr<P, D>&& other) noexcept
 {
-	if (this != &other)
-	{
-		if (this->ptr)
-			this->del(this->ptr);
-		this->ptr = other.release();
-		this->del = std::forward<D>(other.get_deleter());
-		other.ptr = nullptr;
-	}
+	if (this->ptr)
+		this->del(this->ptr);
+	this->ptr = other.release();
+	this->del = std::forward<D>(other.get_deleter());
 	return (*this);
 }
 

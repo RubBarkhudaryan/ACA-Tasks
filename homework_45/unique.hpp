@@ -4,13 +4,22 @@
 
 # include <type_traits>
 # include <cstddef>
+# include <utility>
 
 namespace rub
 {
-
 	template <typename T>
 	struct default_deleter
 	{
+		default_deleter() = default;
+		~default_deleter() = default;
+		template <typename U,
+				typename = std::enable_if_t<
+								std::is_convertible<U*, T*>::value
+							>
+				>
+		default_deleter(const default_deleter<U>&)
+		{}
 		void	operator()(T* ptr);
 	};
 
@@ -38,7 +47,7 @@ namespace rub
 			>
 			unique_ptr(rub::unique_ptr<P, D>&& other) noexcept;
 			~unique_ptr() noexcept;
-			unique_ptr(const rub::unique_ptr& other) = delete;
+			unique_ptr(const rub::unique_ptr<T, Deleter>& other) = delete;
 
 			/*-----unique_ptr operators-----*/
 			T&								operator*(void) noexcept;
