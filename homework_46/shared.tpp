@@ -27,17 +27,16 @@ rub::shared_ptr<T>::shared_ptr(std::nullptr_t) noexcept : ptr(nullptr), ctrl(nul
 {}
 
 template <typename T>
-rub::shared_ptr<T>::shared_ptr(const rub::shared_ptr<T>& other) noexcept : ptr(other.ptr), ctrl(other.ctrl)
+rub::shared_ptr<T>::shared_ptr(const rub::shared_ptr<T>& other) noexcept : ptr(other.get()), ctrl(other.get_ctrl_block())
 {
 	if (this->ctrl)
 		ctrl->count.fetch_add(1, std::memory_order_relaxed);
 }
 
 template <typename T>
-rub::shared_ptr<T>::shared_ptr(rub::shared_ptr<T>&& other) noexcept : ptr(std::move(other.ptr)), ctrl(std::move(other.ctrl))
+rub::shared_ptr<T>::shared_ptr(rub::shared_ptr<T>&& other) noexcept : ptr(other.get()), ctrl(other.get_ctrl_block())
 {
-	other.ptr = nullptr;
-	other.ctrl = nullptr;
+	other.reset_all(rub::reset::ALL);
 }
 
 template <typename T>
@@ -85,7 +84,7 @@ template <typename Y, typename>
 rub::shared_ptr<T>::shared_ptr(const rub::shared_ptr<Y>& other, Y* ptr) noexcept
 {
 	this->ptr = ptr;
-	this->ctrl = other.ctrl;
+	this->ctrl = other.get_ctrl_block();
 
 	if (this->ctrl)
 		ctrl->count.fetch_add(1, std::memory_order_relaxed);
@@ -96,18 +95,17 @@ template <typename Y, typename>
 rub::shared_ptr<T>::shared_ptr(rub::shared_ptr<Y>&& other, Y* ptr) noexcept
 {
 	this->ptr = ptr;
-	this->ctrl = other.ctrl;
+	this->ctrl = other.get_ctrl_block();
 
-	other.ptr = nullptr;
-	other.ctrl = nullptr;
+	other.reset_all(rub::reset::CTRL_ONLY);
 }
 
 template <typename T>
 template <typename Y, typename>
 rub::shared_ptr<T>::shared_ptr(const rub::shared_ptr<Y>& other) noexcept
 {
-	this->ptr = other.ptr;
-	this->ctrl = other.ctrl;
+	this->ptr = other.get();
+	this->ctrl = other.get_ctrl_block();
 
 	if (this->ctrl)
 		ctrl->count.fetch_add(1, std::memory_order_relaxed);
@@ -117,11 +115,10 @@ template <typename T>
 template <typename Y, typename>
 rub::shared_ptr<T>::shared_ptr(rub::shared_ptr<Y>&& other) noexcept
 {
-	this->ptr = other.ptr;
-	this->ctrl = other.ctrl;
+	this->ptr = other.get();
+	this->ctrl = other.get_ctrl_block();
 
-	other.ptr = nullptr;
-	other.ctrl = nullptr;
+	other.reset_all(rub::reset::ALL);
 }
 
 template <typename T>
@@ -145,7 +142,7 @@ rub::shared_ptr<T>::shared_ptr(const std::weak_ptr<Y>& other) noexcept
 	if (temp)
 	{
 		this->ptr = temp.get();
-		this->ctrl = temp.ctrl;
+		this->ctrl = temp.get_ctrl_block();
 	
 		if (this->ctrl)
 			ctrl->count.fetch_add(1, std::memory_order_relaxed);
@@ -191,8 +188,8 @@ rub::shared_ptr<T>&	rub::shared_ptr<T>::operator=(const rub::shared_ptr<T>& othe
 				delete this->ctrl;
 			}
 		}
-		this->ptr = other.ptr;
-		this->ctrl = other.ctrl;
+		this->ptr = other.get();
+		this->ctrl = other.get_ctrl_block();
 		if (this->ctrl)
 			ctrl->count.fetch_add(1, std::memory_order_relaxed);
 	}
@@ -212,10 +209,9 @@ rub::shared_ptr<T>&	rub::shared_ptr<T>::operator=(rub::shared_ptr<T>&& other) no
 				delete this->ctrl;
 			}
 		}
-		this->ptr = other.ptr;
-		this->ctrl = other.ctrl;
-		other.ptr = nullptr;
-		other.ctrl = nullptr;
+		this->ptr = other.get();
+		this->ctrl = other.get_ctrl_block();
+		other.reset_all(rub::reset::ALL);
 	}
 	return (*this);
 }
@@ -261,7 +257,7 @@ rub::shared_ptr<T>&	rub::shared_ptr<T>::operator=(rub::shared_ptr<Y>&& other) no
 
 		this->ptr = other.get();
 		this->ctrl = other.get_ctrl_block();
-		other.reset_all();
+		other.reset_all(rub::reset::ALL);
 	}
 	return (*this);
 }
@@ -402,10 +398,17 @@ rub::control_block_base	*rub::shared_ptr<T>::get_ctrl_block(void) const noexcept
 }
 
 template <typename T>
-void	rub::shared_ptr<T>::reset_all(void) noexcept
+void	rub::shared_ptr<T>::reset_all(int which) noexcept
 {
-	this->ptr = nullptr;
-	this->ctrl = nullptr;
+	if (which == rub::reset::ALL)
+	{
+		this->ptr = nullptr;
+		this->ctrl = nullptr;
+	}
+	else if (which == rub::reset::PTR_ONLY)
+		this->ptr = nullptr;
+	else if (which == rub::reset::CTRL_ONLY)
+		this->ctrl = nullptr;
 }
 
 #endif //SHARED_TPP

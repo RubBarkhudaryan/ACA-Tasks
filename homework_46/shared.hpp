@@ -9,6 +9,14 @@
 
 namespace rub
 {
+
+	enum	reset
+	{
+		ALL,
+		PTR_ONLY,
+		CTRL_ONLY,
+	};
+
 	struct	control_block_base
 	{
 		public:
@@ -143,7 +151,7 @@ namespace rub
 			/*-----shared_ptr methods-----*/
 			T*						get(void) const noexcept;
 			void					reset() noexcept;
-			void					reset_all() noexcept;
+			void					reset_all(int which = 0) noexcept;
 			void					reset(std::nullptr_t);
 			long					use_count() const noexcept;
 			void					swap(rub::shared_ptr<T>& r) noexcept;
