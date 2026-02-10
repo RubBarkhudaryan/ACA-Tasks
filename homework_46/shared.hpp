@@ -3,6 +3,7 @@
 # define SHARED_HPP
 
 # include <cstddef>
+# include <atomic>
 # include <type_traits>
 # include "../homework_45/unique.hpp"
 
@@ -11,7 +12,7 @@ namespace rub
 	struct	control_block_base
 	{
 		public:
-			std::size_t	count = 1;
+			std::atomic<std::size_t>	count{1};
 
 			virtual	~control_block_base() = default;
 			virtual void	destroy() = 0;
@@ -44,38 +45,72 @@ namespace rub
 			~shared_ptr() noexcept;
 
 			/*-----shared_ptr template ctors-----*/
-			// template <typename Y>
-			// explicit shared_ptr(Y* ptr);
+			template <typename Y,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			explicit shared_ptr(Y* ptr);
 			
-			// template <typename Y, typename Deleter>
-			// shared_ptr(Y* ptr, Deleter del);
+			template <typename Y,
+					typename Deleter,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			shared_ptr(Y* ptr, Deleter del);
 			
-			// template <typename Deleter>
-			// shared_ptr(std::nullptr_t ptr, Deleter del);
-			
+			template <typename Deleter>
+			shared_ptr(std::nullptr_t ptr, Deleter del);
+
+			template <typename Y,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			shared_ptr(const rub::shared_ptr<Y>& other, Y* ptr) noexcept;
+
+			template <typename Y,
+					typename = std::enable_if_t<
+							std::is_convertible<Y *, T *>::value
+					>
+			>
+			shared_ptr(rub::shared_ptr<Y>&& other, Y* ptr) noexcept;
+
+			template <typename Y,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			shared_ptr(const rub::shared_ptr<Y>& other) noexcept;
+
+			template <typename Y,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			shared_ptr(rub::shared_ptr<Y>&& other) noexcept;
+
+			template <typename Y,
+					typename Deleter,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			shared_ptr(rub::unique_ptr<Y, Deleter>&& other) noexcept;
+
+			template <typename Y,
+					typename = std::enable_if_t<
+								std::is_convertible<Y *, T *>::value
+					>
+			>
+			explicit shared_ptr(const std::weak_ptr<Y>& other) noexcept;
+
 			// template <typename Y, typename Deleter, typename Alloc>
 			// shared_ptr(Y* ptr, Deleter del, Alloc alloc);
 			
 			// template <typename Deleter, typename Alloc>
 			// shared_ptr(std::nullptr_t ptr, Deleter del, Alloc alloc);
-			
-			// template <typename Y>
-			// shared_ptr(const rub::shared_ptr<Y>& other, Y* ptr) noexcept;
-			
-			// template <typename Y>
-			// shared_ptr(rub::shared_ptr<Y>&& r, Y* ptr) noexcept;
-
-			// template <typename Y>
-			// shared_ptr(const rub::shared_ptr<Y>& other) noexcept;
-
-			// template <typename Y>
-			// shared_ptr(rub::shared_ptr<Y>&& other) noexcept;
-
-			// template <typename Y>
-			// explicit shared_ptr(const std::weak_ptr<Y>& other) noexcept;
-
-			// template <typename  Y, typename Deleter>
-			// shared_ptr(rub::unique_ptr<Y, Deleter>&& other) noexcept;
 
 			/*-----shared_ptr operators-----*/
 			T&					operator*(void) noexcept;
@@ -106,10 +141,13 @@ namespace rub
 			rub::shared_ptr<T>&	operator=(rub::unique_ptr<Y, Deleter>&& other) noexcept;
 
 			/*-----shared_ptr methods-----*/
-			T*					get(void) const noexcept;
-			void				reset() noexcept;
-			long				use_count() const noexcept;
-			void				swap(rub::shared_ptr<T>& r) noexcept;
+			T*						get(void) const noexcept;
+			void					reset() noexcept;
+			void					reset_all() noexcept;
+			void					reset(std::nullptr_t);
+			long					use_count() const noexcept;
+			void					swap(rub::shared_ptr<T>& r) noexcept;
+			rub::control_block_base	*get_ctrl_block(void) const noexcept;
 
 			/*-----shared_ptr templated methods-----*/
 			template <typename Y,
@@ -128,10 +166,10 @@ namespace rub
 			void				reset(Y* ptr, Deleter del);
 
 			template <typename Deleter>
-			Deleter&			get_deleter(void) noexcept;
+			Deleter*			get_deleter(void) noexcept;
 	
 			template <typename Deleter>
-			const Deleter&		get_deleter(void) const noexcept;
+			const Deleter*		get_deleter(void) const noexcept;
 	};
 }
 
