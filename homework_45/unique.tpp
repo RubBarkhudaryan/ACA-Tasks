@@ -131,7 +131,7 @@ void	rub::unique_ptr<T, Deleter>::reset(T *ptr) noexcept
 	this->ptr = ptr;
 }
 
-/*-------UNIQUE POINTER FOR ARRAYS-------*/
+/*-------UNIQUE_PTR[]-------*/
 
 /*-------default_deleter[]-------*/
 template<typename T>
