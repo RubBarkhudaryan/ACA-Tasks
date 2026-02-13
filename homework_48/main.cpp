@@ -13,7 +13,7 @@ void	init_chunk(std::vector<short> &vec, std::size_t start, std::size_t end)
 
 void	sum(const std::vector<short>& vec, std::size_t start, std::size_t end, long long& sum)
 {
-	sum = std::accumulate(vec.begin() + start, vec.begin() + end, 0LL);
+	sum = std::reduce(std::execution::par, vec.begin() + start, vec.begin() + end, 0LL);
 }
 
 int	main()
