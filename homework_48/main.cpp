@@ -4,11 +4,16 @@
 #include <vector>
 #include <chrono>
 #include <execution>
+#include <random>
 
 void	init_chunk(std::vector<short> &vec, std::size_t start, std::size_t end)
 {
+	std::random_device						rand;
+	std::mt19937							gen(rand());
+	std::uniform_int_distribution<short>	dist(0, 100);
+
 	for (std::size_t i = start; i < end; ++i)
-		vec[i] = i % 100;
+		vec[i] = dist(gen);
 }
 
 void	sum(const std::vector<short>& vec, std::size_t start, std::size_t end, long long& sum)
