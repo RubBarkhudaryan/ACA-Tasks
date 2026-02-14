@@ -8,7 +8,7 @@
 void	init_chunk(std::vector<short> &vec, std::size_t start, std::size_t end)
 {
 	for (std::size_t i = start; i < end; ++i)
-		vec[i] = (i + 1) % 100;
+		vec[i] = i % 100;
 }
 
 void	sum(const std::vector<short>& vec, std::size_t start, std::size_t end, long long& sum)
@@ -19,13 +19,16 @@ void	sum(const std::vector<short>& vec, std::size_t start, std::size_t end, long
 int	main()
 {
 	constexpr std::size_t		vec_size = 1000000000;
-	constexpr std::size_t		chunk_count = 5;
-	constexpr std::size_t		chunk_size = vec_size / 5;
+	std::size_t					chunk_count = std::thread::hardware_concurrency();
+	std::size_t					chunk_size = vec_size / chunk_count;
 
 	std::vector<short>			vec(vec_size);
 	std::vector<std::thread>	threads;
 
 	long long					total_sum;
+
+	std::cout << "Threads count: " << chunk_count << std::endl;
+	std::cout << "Chunk size: " << chunk_size << std::endl;
 
 	auto start = std::chrono::steady_clock::now();
 
