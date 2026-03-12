@@ -1,27 +1,27 @@
 #include <iostream>
 #include <vector>
 #include <list>
-#include <algorithm> // for comparison
+#include <algorithm>
 #include <cassert>
 #include "./tools.h"
 
 // ---------- TEST FUNCTORS ----------
 
-struct Counter
+struct	Counter
 {
-	int count;
+	int	count;
 
 	Counter() : count(0) {}
 
-	void operator()(int)
+	void	operator()(int)
 	{
 		++count;
 	}
 };
 
-struct Sum
+struct	Sum
 {
-	int total;
+	int	total;
 
 	Sum() : total(0) {}
 
@@ -31,7 +31,7 @@ struct Sum
 	}
 };
 
-void multiply_by_two(int &x)
+void	multiply_by_two(int &x)
 {
 	x *= 2;
 }
@@ -47,6 +47,12 @@ int main()
 		rub::for_each(v.begin(), v.end(), [](int &x) {
 			x += 1;
 		});
+
+		rub::for_each(v.begin(), v.end(), [](int &x) {
+			std::cout << x << " ";
+		});
+
+		std::cout << std::endl;
 
 		assert((v == std::vector<int>{2, 3, 4, 5}));
 	}
